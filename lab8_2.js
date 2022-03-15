@@ -11,7 +11,7 @@ function playGame() {
         let input = getInput();
         let invalidNumber = isNaN(input);
         let gamblingTooMuch = Number(input) > balance;
-        userWantsToPlay = !(input == 'exit');
+        userWantsToPlay = input != 'exit';
 
         if (!userWantsToPlay) {
             break
@@ -23,27 +23,29 @@ function playGame() {
             continue;
         }
 
-        alert('Passed, continue with game logic');
+        // Passed conditions, which means input is a number, user has enough credits and still wants to play.
 
-        // let result = gamble(Number(input));
+        let youWin = gamble();
+        let amount = Number(input);
 
-        // if (result == 'win') {
-        //     modifyBalance('add');
-        //     displayMessage('win');
-        // } else {
-        //     modifyBalance('subtract');
-        //     displayMessage('lose');
-        // }
+        if (youWin) {
+            modifyBalance('add', amount);
+            displayMessage('win');
+        } else {
+            modifyBalance('subtract', amount);
+            displayMessage('lose');
+        }
 
-        // if (balance == 0) {
-        //     break;
-        // }
+        if (balance == 0) {
+            break;
+        }
     }
 
     alert('Bye bye');
 }
 
 function addBalance() {
+    // TODO improve while loop
     let invalidInput = true;
     let input;
 
@@ -54,10 +56,47 @@ function addBalance() {
             alert('Please enter a valid number');
         } 
     }
+
     balance = Number(input);
     alert('Your current balance is ' + balance + '. Go ahead.')
 }
 
 function getInput() {
     return prompt('Your current balance is ' + balance + '. You can type "exit" to quit. To continue playing, enter a number less than or equal to your balance.');
+}
+
+function gamble() {
+    let slotMachineNumber = Math.floor(Math.random() * 100 + 1);
+    let chanceOfLosing = 70;
+    return slotMachineNumber > chanceOfLosing;
+}
+
+function modifyBalance(operation, amount) {
+    switch (operation) {
+        case 'add':
+            balance += amount;
+            break;
+        case 'subtract':
+            balance -= amount;
+            break;
+    }
+}
+
+function displayMessage(type) {
+    let message = 'Your current balance is ' + balance + '. Take time to decide whether to continue playing.';
+
+    switch (type) {
+        case 'win':
+            message = 'You win! ' + message;
+            break;
+        case 'lose':
+            if (balance == 0) {
+                message = 'You lose. Your current balance is ' + balance + '. You are done for the game.';
+            } else {
+                message = 'You lose. ' + message;
+            }
+            break;
+    }
+
+    alert(message);
 }
