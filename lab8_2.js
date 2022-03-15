@@ -5,6 +5,7 @@ playGame();
 
 function playGame() {
 
+    // Initializes to true to run while loop.
     let userWantsToPlay = true;
 
     while (userWantsToPlay) {
@@ -19,7 +20,7 @@ function playGame() {
             alert('Please enter a valid number');
             continue;
         } else if (gamblingTooMuch) {
-            alert("You're gambling too much, your number should be less than the balance.");
+            alert("You're gambling too much, your bet should be less than the balance.");
             continue;
         }
 
@@ -41,20 +42,21 @@ function playGame() {
         }
     }
 
+    // Exitted while loop, either because user decided to quit or ran out of credits.
     alert('Bye bye');
 }
 
 function addBalance() {
-    // TODO improve while loop
-    let invalidInput = true;
     let input;
 
-    while (invalidInput) {
+    while (true) {
         input = prompt('How much did you want to add?');
-        invalidInput = isNaN(input);
-        if (invalidInput) {
+        if (isNaN(input)) {
             alert('Please enter a valid number');
-        } 
+            continue;
+        } else {
+            break;
+        }
     }
 
     balance = Number(input);
