@@ -15,7 +15,7 @@ function playGame() {
         userWantsToPlay = input != 'exit';
 
         if (!userWantsToPlay) {
-            break
+            break;
         } else if (invalidNumber) {
             alert('Please enter a valid number');
             continue;
@@ -51,12 +51,11 @@ function addBalance() {
 
     while (true) {
         input = prompt('How much did you want to add?');
-        if (isNaN(input)) {
-            alert('Please enter a valid number');
-            continue;
-        } else {
+        let validInput = !isNaN(input);
+        if (validInput) {
             break;
         }
+        alert('Please enter a valid number');
     }
 
     balance = Number(input);
