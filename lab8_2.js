@@ -1,7 +1,7 @@
 let balance = 0;
 
 addBalance();
-// playGame();
+playGame();
 
 function playGame() {
 
@@ -9,27 +9,38 @@ function playGame() {
 
     while (userWantsToPlay) {
         let input = getInput();
-        let validNumber = checkForNumber(input);
-        userWantsToPlay = checkForExit(input);
+        let invalidNumber = isNaN(input);
+        let gamblingTooMuch = Number(input) > balance;
+        userWantsToPlay = !(input == 'exit');
 
-        if (!userWantsToPlay || !validNumber) {
+        if (!userWantsToPlay) {
             break
+        } else if (invalidNumber) {
+            alert('Please enter a valid number');
+            continue;
+        } else if (gamblingTooMuch) {
+            alert("You're gambling too much, your number should be less than the balance.");
+            continue;
         }
 
-        let result = gamble();
+        alert('Passed, continue with game logic');
 
-        if (result == 'win') {
-            modifyBalance('add');
-            displayMessage('win');
-        } else {
-            modifyBalance('subtract');
-            displayMessage('lose');
-        }
+        // let result = gamble(Number(input));
 
-        if (balance == 0) {
-            break;
-        }
+        // if (result == 'win') {
+        //     modifyBalance('add');
+        //     displayMessage('win');
+        // } else {
+        //     modifyBalance('subtract');
+        //     displayMessage('lose');
+        // }
+
+        // if (balance == 0) {
+        //     break;
+        // }
     }
+
+    alert('Bye bye');
 }
 
 function addBalance() {
@@ -38,7 +49,7 @@ function addBalance() {
 
     while (invalidInput) {
         input = prompt('How much did you want to add?');
-        invalidInput = (checkForNumber(input));
+        invalidInput = isNaN(input);
         if (invalidInput) {
             alert('Please enter a valid number');
         } 
@@ -47,10 +58,6 @@ function addBalance() {
     alert('Your current balance is ' + balance + '. Go ahead.')
 }
 
-function checkForNumber(input) {
-    return isNaN(input);
-}
-
 function getInput() {
-    prompt('')
+    return prompt('Your current balance is ' + balance + '. You can type "exit" to quit. To continue playing, enter a number less than or equal to your balance.');
 }
